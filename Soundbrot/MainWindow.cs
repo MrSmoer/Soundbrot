@@ -103,6 +103,18 @@ namespace Soundbrot
             this.WindowState = FormWindowState.Normal;
             SystemTrayIc.Visible = false;
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+            SystemTrayIc.Visible = false;
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 
 }
