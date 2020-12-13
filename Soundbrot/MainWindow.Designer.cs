@@ -149,11 +149,14 @@ namespace Soundbrot
             // 
             // setsgear
             // 
+            this.setsgear.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("setsgear.BackgroundImage")));
             this.setsgear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.setsgear.Location = new System.Drawing.Point(24, 16);
             this.setsgear.Name = "setsgear";
             this.setsgear.Size = new System.Drawing.Size(30, 30);
             this.setsgear.TabIndex = 2;
+            this.setsgear.MouseEnter += new System.EventHandler(this.control_MouseEnter);
+            this.setsgear.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // label7
             // 
@@ -164,6 +167,8 @@ namespace Soundbrot
             this.label7.Size = new System.Drawing.Size(84, 27);
             this.label7.TabIndex = 1;
             this.label7.Text = "Settings";
+            this.label7.MouseEnter += new System.EventHandler(this.control_MouseEnter);
+            this.label7.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // label6
             // 
@@ -217,6 +222,8 @@ namespace Soundbrot
             this.foldl1.Text = "Profile X:";
             this.foldl1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.foldl1.Click += new System.EventHandler(this.label1_Click);
+            this.foldl1.MouseEnter += new System.EventHandler(this.control_MouseEnter);
+            this.foldl1.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // FoldP2
             // 
@@ -238,6 +245,8 @@ namespace Soundbrot
             this.foldl2.Size = new System.Drawing.Size(82, 23);
             this.foldl2.TabIndex = 1;
             this.foldl2.Text = "Profile X:";
+            this.foldl2.MouseEnter += new System.EventHandler(this.control_MouseEnter);
+            this.foldl2.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // FoldP3
             // 
@@ -259,6 +268,8 @@ namespace Soundbrot
             this.foldl3.Size = new System.Drawing.Size(82, 23);
             this.foldl3.TabIndex = 1;
             this.foldl3.Text = "Profile X:";
+            this.foldl3.MouseEnter += new System.EventHandler(this.control_MouseEnter);
+            this.foldl3.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // FoldP4
             // 
@@ -280,7 +291,9 @@ namespace Soundbrot
             this.foldl4.Name = "foldl4";
             this.foldl4.Size = new System.Drawing.Size(82, 23);
             this.foldl4.TabIndex = 1;
-            this.foldl4.Text = "Profile X:";
+            this.foldl4.Text = "Profile X:"; 
+            this.foldl4.MouseEnter += new System.EventHandler(this.control_MouseEnter);
+            this.foldl4.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // FoldP5
             // 
@@ -302,6 +315,8 @@ namespace Soundbrot
             this.foldl5.Size = new System.Drawing.Size(82, 23);
             this.foldl5.TabIndex = 1;
             this.foldl5.Text = "Profile X:";
+            this.foldl5.MouseEnter += new System.EventHandler(this.control_MouseEnter);
+            this.foldl5.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // MainWindow1
             // 
