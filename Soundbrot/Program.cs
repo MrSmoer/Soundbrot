@@ -16,6 +16,7 @@ namespace Soundbrot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            _ = new KeyHook();
             Application.Run(new MainWindow1());
         }
     }
