@@ -86,6 +86,7 @@ namespace Soundbrot
             this.topbar.Name = "topbar";
             this.topbar.Size = new System.Drawing.Size(800, 54);
             this.topbar.TabIndex = 0;
+            this.topbar.MouseMove += new System.Windows.Forms.MouseEventHandler(this.topbar_MouseMove);
             // 
             // MinimizeToSysTray
             // 
@@ -371,19 +372,19 @@ namespace Soundbrot
             this.enabledToolStripMenuItem,
             this.quitToolStripMenuItem});
             this.SysTrayConMen.Name = "SysTrayConMen";
-            this.SysTrayConMen.Size = new System.Drawing.Size(181, 114);
+            this.SysTrayConMen.Size = new System.Drawing.Size(117, 92);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // profileToolStripMenuItem
             // 
             this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
-            this.profileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.profileToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.profileToolStripMenuItem.Text = "Profile";
             // 
             // enabledToolStripMenuItem
@@ -392,13 +393,13 @@ namespace Soundbrot
             this.enabledToolStripMenuItem.CheckOnClick = true;
             this.enabledToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.enabledToolStripMenuItem.Name = "enabledToolStripMenuItem";
-            this.enabledToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.enabledToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.enabledToolStripMenuItem.Text = "Enabled";
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            this.quitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 

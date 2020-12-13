@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Media;
 
 namespace Soundbrot
 {
@@ -23,7 +24,7 @@ namespace Soundbrot
             Console.WriteLine("Constructor ausgeführt!");
             //UnhookWindowsHookEx(_hookID);
         }
-
+        
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
@@ -45,7 +46,8 @@ namespace Soundbrot
                 int vkCode = Marshal.ReadInt32(lParam);
                 Console.WriteLine((Keys)vkCode);
                 Console.WriteLine(vkCode);
-                if (vkCode == 83) System.Windows.Forms.MessageBox.Show("My message here"); 
+                SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
+                if(vkCode==83)simpleSound.Play();
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
