@@ -74,9 +74,35 @@ namespace Soundbrot
             if (control != null)
                 control.BackColor = System.Drawing.Color.LightCoral;
         }
+        private void MainWindow1_Resize(object sender, EventArgs e)
+        {
+            //if the form is minimized  
+            //hide it from the task bar  
+            //and show the system tray icon (represented by the NotifyIcon control)  
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+                SystemTrayIc.Visible = true;
+            }
+        }
+        private void MainWindow_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+            SystemTrayIc.Visible = false;
+        }
 
+        private void MinimizeToSysTray_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
 
-
+        private void SystemTrayIc_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+            SystemTrayIc.Visible = false;
+        }
     }
 
 }

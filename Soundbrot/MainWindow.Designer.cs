@@ -32,8 +32,10 @@ namespace Soundbrot
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow1));
             this.topbar = new System.Windows.Forms.Panel();
+            this.MinimizeToSysTray = new System.Windows.Forms.Label();
             this.Headline = new System.Windows.Forms.Label();
             this.close = new System.Windows.Forms.Label();
             this.Menuic = new System.Windows.Forms.Panel();
@@ -54,6 +56,12 @@ namespace Soundbrot
             this.foldl4 = new System.Windows.Forms.Label();
             this.FoldP5 = new System.Windows.Forms.Panel();
             this.foldl5 = new System.Windows.Forms.Label();
+            this.SystemTrayIc = new System.Windows.Forms.NotifyIcon(this.components);
+            this.SysTrayConMen = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.profileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.topbar.SuspendLayout();
             this.foldoutmenu.SuspendLayout();
             this.SetsPanel.SuspendLayout();
@@ -63,11 +71,13 @@ namespace Soundbrot
             this.FoldP3.SuspendLayout();
             this.FoldP4.SuspendLayout();
             this.FoldP5.SuspendLayout();
+            this.SysTrayConMen.SuspendLayout();
             this.SuspendLayout();
             // 
             // topbar
             // 
             this.topbar.BackColor = System.Drawing.Color.LightCoral;
+            this.topbar.Controls.Add(this.MinimizeToSysTray);
             this.topbar.Controls.Add(this.Headline);
             this.topbar.Controls.Add(this.close);
             this.topbar.Controls.Add(this.Menuic);
@@ -76,6 +86,18 @@ namespace Soundbrot
             this.topbar.Name = "topbar";
             this.topbar.Size = new System.Drawing.Size(800, 54);
             this.topbar.TabIndex = 0;
+            // 
+            // MinimizeToSysTray
+            // 
+            this.MinimizeToSysTray.AutoSize = true;
+            this.MinimizeToSysTray.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.MinimizeToSysTray.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold);
+            this.MinimizeToSysTray.Location = new System.Drawing.Point(736, 17);
+            this.MinimizeToSysTray.Name = "MinimizeToSysTray";
+            this.MinimizeToSysTray.Size = new System.Drawing.Size(18, 26);
+            this.MinimizeToSysTray.TabIndex = 4;
+            this.MinimizeToSysTray.Text = "-";
+            this.MinimizeToSysTray.Click += new System.EventHandler(this.MinimizeToSysTray_Click);
             // 
             // Headline
             // 
@@ -107,6 +129,7 @@ namespace Soundbrot
             // 
             this.Menuic.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Menuic.BackgroundImage")));
             this.Menuic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Menuic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.Menuic.Location = new System.Drawing.Point(12, 6);
             this.Menuic.Name = "Menuic";
             this.Menuic.Size = new System.Drawing.Size(35, 41);
@@ -140,6 +163,7 @@ namespace Soundbrot
             this.SetsPanel.Controls.Add(this.setsgear);
             this.SetsPanel.Controls.Add(this.label7);
             this.SetsPanel.Controls.Add(this.label6);
+            this.SetsPanel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.SetsPanel.Location = new System.Drawing.Point(3, 332);
             this.SetsPanel.Name = "SetsPanel";
             this.SetsPanel.Size = new System.Drawing.Size(176, 61);
@@ -151,6 +175,7 @@ namespace Soundbrot
             // 
             this.setsgear.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("setsgear.BackgroundImage")));
             this.setsgear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.setsgear.Cursor = System.Windows.Forms.Cursors.Hand;
             this.setsgear.Location = new System.Drawing.Point(24, 16);
             this.setsgear.Name = "setsgear";
             this.setsgear.Size = new System.Drawing.Size(30, 30);
@@ -161,6 +186,7 @@ namespace Soundbrot
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label7.Font = new System.Drawing.Font("Calibri", 16.25F, System.Drawing.FontStyle.Bold);
             this.label7.Location = new System.Drawing.Point(54, 18);
             this.label7.Name = "label7";
@@ -203,6 +229,7 @@ namespace Soundbrot
             // FoldP1
             // 
             this.FoldP1.Controls.Add(this.foldl1);
+            this.FoldP1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FoldP1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FoldP1.Location = new System.Drawing.Point(3, 3);
             this.FoldP1.Name = "FoldP1";
@@ -214,6 +241,7 @@ namespace Soundbrot
             // foldl1
             // 
             this.foldl1.AutoSize = true;
+            this.foldl1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.foldl1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.foldl1.Location = new System.Drawing.Point(47, 13);
             this.foldl1.Name = "foldl1";
@@ -228,6 +256,7 @@ namespace Soundbrot
             // FoldP2
             // 
             this.FoldP2.Controls.Add(this.foldl2);
+            this.FoldP2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FoldP2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FoldP2.Location = new System.Drawing.Point(3, 58);
             this.FoldP2.Name = "FoldP2";
@@ -239,6 +268,7 @@ namespace Soundbrot
             // foldl2
             // 
             this.foldl2.AutoSize = true;
+            this.foldl2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.foldl2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.foldl2.Location = new System.Drawing.Point(47, 13);
             this.foldl2.Name = "foldl2";
@@ -251,6 +281,7 @@ namespace Soundbrot
             // FoldP3
             // 
             this.FoldP3.Controls.Add(this.foldl3);
+            this.FoldP3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FoldP3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FoldP3.Location = new System.Drawing.Point(3, 113);
             this.FoldP3.Name = "FoldP3";
@@ -262,6 +293,7 @@ namespace Soundbrot
             // foldl3
             // 
             this.foldl3.AutoSize = true;
+            this.foldl3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.foldl3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.foldl3.Location = new System.Drawing.Point(47, 13);
             this.foldl3.Name = "foldl3";
@@ -274,6 +306,7 @@ namespace Soundbrot
             // FoldP4
             // 
             this.FoldP4.Controls.Add(this.foldl4);
+            this.FoldP4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FoldP4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FoldP4.Location = new System.Drawing.Point(3, 168);
             this.FoldP4.Name = "FoldP4";
@@ -286,18 +319,20 @@ namespace Soundbrot
             // foldl4
             // 
             this.foldl4.AutoSize = true;
+            this.foldl4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.foldl4.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.foldl4.Location = new System.Drawing.Point(47, 13);
             this.foldl4.Name = "foldl4";
             this.foldl4.Size = new System.Drawing.Size(82, 23);
             this.foldl4.TabIndex = 1;
-            this.foldl4.Text = "Profile X:"; 
+            this.foldl4.Text = "Profile X:";
             this.foldl4.MouseEnter += new System.EventHandler(this.control_MouseEnter);
             this.foldl4.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // FoldP5
             // 
             this.FoldP5.Controls.Add(this.foldl5);
+            this.FoldP5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FoldP5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FoldP5.Location = new System.Drawing.Point(3, 223);
             this.FoldP5.Name = "FoldP5";
@@ -309,6 +344,7 @@ namespace Soundbrot
             // foldl5
             // 
             this.foldl5.AutoSize = true;
+            this.foldl5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.foldl5.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.foldl5.Location = new System.Drawing.Point(47, 14);
             this.foldl5.Name = "foldl5";
@@ -317,6 +353,52 @@ namespace Soundbrot
             this.foldl5.Text = "Profile X:";
             this.foldl5.MouseEnter += new System.EventHandler(this.control_MouseEnter);
             this.foldl5.MouseLeave += new System.EventHandler(this.control_MouseLeave);
+            // 
+            // SystemTrayIc
+            // 
+            this.SystemTrayIc.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.SystemTrayIc.BalloonTipText = "Doubleclick to open Soundbrot";
+            this.SystemTrayIc.ContextMenuStrip = this.SysTrayConMen;
+            this.SystemTrayIc.Icon = ((System.Drawing.Icon)(resources.GetObject("SystemTrayIc.Icon")));
+            this.SystemTrayIc.Text = "Doubleclick to open Soundbrot";
+            this.SystemTrayIc.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.SystemTrayIc_MouseDoubleClick);
+            // 
+            // SysTrayConMen
+            // 
+            this.SysTrayConMen.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.profileToolStripMenuItem,
+            this.enabledToolStripMenuItem,
+            this.quitToolStripMenuItem});
+            this.SysTrayConMen.Name = "SysTrayConMen";
+            this.SysTrayConMen.Size = new System.Drawing.Size(117, 92);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            // 
+            // profileToolStripMenuItem
+            // 
+            this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
+            this.profileToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.profileToolStripMenuItem.Text = "Profile";
+            // 
+            // enabledToolStripMenuItem
+            // 
+            this.enabledToolStripMenuItem.Checked = true;
+            this.enabledToolStripMenuItem.CheckOnClick = true;
+            this.enabledToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.enabledToolStripMenuItem.Name = "enabledToolStripMenuItem";
+            this.enabledToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.enabledToolStripMenuItem.Text = "Enabled";
+            // 
+            // quitToolStripMenuItem
+            // 
+            this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            this.quitToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.quitToolStripMenuItem.Text = "Quit";
             // 
             // MainWindow1
             // 
@@ -331,6 +413,7 @@ namespace Soundbrot
             this.Name = "MainWindow1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainWindow1";
+            this.Resize += new System.EventHandler(this.MainWindow1_Resize);
             this.topbar.ResumeLayout(false);
             this.topbar.PerformLayout();
             this.foldoutmenu.ResumeLayout(false);
@@ -347,6 +430,7 @@ namespace Soundbrot
             this.FoldP4.PerformLayout();
             this.FoldP5.ResumeLayout(false);
             this.FoldP5.PerformLayout();
+            this.SysTrayConMen.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -375,6 +459,13 @@ namespace Soundbrot
         private System.Windows.Forms.Panel setsgear;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
+        private NotifyIcon SystemTrayIc;
+        private ContextMenuStrip SysTrayConMen;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem profileToolStripMenuItem;
+        private ToolStripMenuItem enabledToolStripMenuItem;
+        private ToolStripMenuItem quitToolStripMenuItem;
+        private Label MinimizeToSysTray;
     }
 }
 
