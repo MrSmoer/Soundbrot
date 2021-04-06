@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Media;
+using System.Collections.Concurrent;
 
 namespace Soundbrot
 {
@@ -14,8 +15,11 @@ namespace Soundbrot
     {
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
+        private const int WM_KEYUP = 0x101;
+        private const int WM_SYSKEYDOWN = 0x104;
+        private const int WM_SYSKEYUP = 0x105;
         private static LowLevelKeyboardProc _proc = HookCallback;
-        private static IntPtr _hookID = IntPtr.Zero;
+        public static IntPtr _hookID = IntPtr.Zero;
 
         public KeyHook()
         {
@@ -23,6 +27,7 @@ namespace Soundbrot
             
             Console.WriteLine("Constructor ausgeführt!");
             //UnhookWindowsHookEx(_hookID);
+
         }
         
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -41,13 +46,20 @@ namespace Soundbrot
         private static IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN || nCode >= 0 && wParam == (IntPtr)WM_SYSKEYDOWN)
             {
+
                 int vkCode = Marshal.ReadInt32(lParam);
-                Console.WriteLine((Keys)vkCode);
-                Console.WriteLine(vkCode);
-                SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
-                if(vkCode==83)simpleSound.Play();
+                //Console.WriteLine((Keys)vkCode);
+                //Console.WriteLine(vkCode + "test");
+                SoundPlayer simpleSound = new SoundPlayer(@"C:\Users\Anton\Desktop\cnadycrushwavefrnots\tasty.wav");
+
+                if (vkCode == 83) simpleSound.Play();
+            }
+            else if ((nCode >= 0 && wParam == (IntPtr)WM_KEYUP) || (nCode >= 0 && wParam == (IntPtr)WM_SYSKEYUP))
+            { 
+                //Console.WriteLine("asdf"); 
+            
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
@@ -58,7 +70,7 @@ namespace Soundbrot
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,

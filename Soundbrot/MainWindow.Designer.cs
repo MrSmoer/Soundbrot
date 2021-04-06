@@ -147,6 +147,7 @@ namespace Soundbrot
             this.content.Name = "content";
             this.content.Size = new System.Drawing.Size(800, 396);
             this.content.TabIndex = 1;
+            this.content.Paint += new System.Windows.Forms.PaintEventHandler(this.content_Paint);
             // 
             // foldoutmenu
             // 
@@ -434,6 +435,7 @@ namespace Soundbrot
             this.FoldP5.ResumeLayout(false);
             this.FoldP5.PerformLayout();
             this.SysTrayConMen.ResumeLayout(false);
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.ResumeLayout(false);
 
         }

@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Utilities;
+using System.Runtime.InteropServices;
+using System.Collections.Concurrent;
+using System.Windows.Input;
+using System.IO;
+using NAudio.Wave;
+using System.Threading;
 
 namespace Soundbrot
 {
@@ -16,8 +23,7 @@ namespace Soundbrot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            _ = new KeyHook();
             Application.Run(new MainWindow1());
-        }
+       }
     }
 }
