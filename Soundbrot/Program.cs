@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.IO;
 using NAudio.Wave;
 using System.Threading;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace Soundbrot
 {
