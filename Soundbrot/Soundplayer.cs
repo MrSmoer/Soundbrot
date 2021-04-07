@@ -15,8 +15,8 @@ namespace Soundbrot
         {
 
             Console.WriteLine("Instance thread procedure. Data='{0}'", filepath);
-            String t = filepath.ToString();
-            using (var audioFile = new AudioFileReader(t))
+            String pathstring = filepath.ToString();
+            using (var audioFile = new AudioFileReader(pathstring))
             using (var outputDevice = new WaveOutEvent())
             {
                 outputDevice.Init(audioFile);
@@ -25,6 +25,7 @@ namespace Soundbrot
                 {
                     Thread.Sleep(1000);
                 }
+
             }
         }   
     }
