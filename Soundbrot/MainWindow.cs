@@ -11,6 +11,9 @@ using System.Windows.Forms;
 using Utilities;
 using System.Collections.Concurrent;
 using System.Threading;
+using System.Configuration;
+using System.Collections.Specialized;
+using NAudio.Wave;
 
 namespace Soundbrot
 {
@@ -19,7 +22,6 @@ namespace Soundbrot
         globalKeyboardHook gkh = new globalKeyboardHook();
         ConcurrentDictionary<String, String> hklist = new ConcurrentDictionary<String, String>();
         ConcurrentDictionary<String, int> modKeys = new ConcurrentDictionary<string, int>();
-
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -41,8 +43,21 @@ namespace Soundbrot
             modKeys["LControlKey"] = 0;
             modKeys["RControlKey"] = 0;
 
-            hklist.GetOrAdd("100000S", "C:/Users/Anton/Desktop/cnadycrushwavefrnots/bubble.wav");
-            hklist.GetOrAdd("000000Multiply", "C:/Users/Anton/Desktop/Never Gonna Give You Up Original.wav");
+            //hklist.GetOrAdd("100000S", "C:/Users/Anton/Desktop/cnadycrushwavefrnots/bubble.wav");
+            //hklist.GetOrAdd("000000Multiply", "C:/Users/Anton/Desktop/Never Gonna Give You Up Original.wav");
+            NameValueCollection sAll;
+            sAll = ConfigurationManager.AppSettings;
+            Console.WriteLine(ConfigurationManager.GetSection("test")+"asdfdasf");
+            for (int i = 0; sAll.AllKeys.Length > i; i++)
+            {
+                //Console.WriteLine(sAll.AllKeys[i]+"  ");
+                hklist.GetOrAdd(sAll.AllKeys[i], sAll.Get(i));
+            }
+            foreach (var display in hklist)
+            {
+                Console.WriteLine("" + display.Key+display.Value);
+            }
+
             #endregion
         }
 
@@ -70,6 +85,21 @@ namespace Soundbrot
             gkh.KeyDown += new KeyEventHandler(gkh_KeyDown);
             gkh.KeyUp += new KeyEventHandler(gkh_KeyUp);
             Console.WriteLine("test");
+            start_listening();
+            for (int n = -1; n < WaveOut.DeviceCount; n++)
+            {
+                var caps = WaveOut.GetCapabilities(n);
+                Console.WriteLine($"{n}: {caps.ProductName}");
+
+                comboBox2.Items.AddRange(new object[] {
+                caps.ProductName});
+
+                comboBox1.Items.AddRange(new object[] {
+                caps.ProductName});
+
+                comboBox1.SelectedIndex = 0;
+                comboBox2.SelectedIndex = 0;
+            }
         }
 
         void gkh_KeyUp(object sender, KeyEventArgs e)
@@ -101,19 +131,24 @@ namespace Soundbrot
             {
                 Console.WriteLine("playSound!");
 
-                Soundplayer sndpl = new Soundplayer();
-                Thread thread1 = new Thread(sndpl.playSound);
+                //thread for playing the sound to user
+                Soundplayer sndpl1 = new Soundplayer(comboBox1.SelectedIndex-1);//devices start counting from -1 not 0
+                Thread thread1 = new Thread(sndpl1.playSound);
                 thread1.Start(hklist[forHkList]);
+
+                //thread for injecting into Mic
+                Soundplayer sndpl2 = new Soundplayer(comboBox2.SelectedIndex - 1);//devices start counting from -1 not 0
+                Thread thread2 = new Thread(sndpl2.playSound);
+                thread2.Start(hklist[forHkList]);
             }
             else
             {
                 Console.WriteLine("not in lsit");
             }
             //e.Handled = true;
+            
         }
         #endregion
-
-
 
 
         private void panel4_Paint(object sender, PaintEventArgs e)
@@ -133,15 +168,7 @@ namespace Soundbrot
 
         private void settingsic_Click(object sender, EventArgs e)
         {
-            //Console.WriteLine(value: foldoutmenu.Size.Width);
-            if (foldoutmenu.Size.Width == 182)
-            {
-                foldoutmenu.Width = 0;
-            }
-            else
-            {
-                foldoutmenu.Width = 182;
-            }
+           
         }
 
         private void close_Click(object sender, EventArgs e)
@@ -225,6 +252,112 @@ namespace Soundbrot
         }
 
         private void content_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainWindow1_Activated(object sender, EventArgs e)
+        {
+
+        }
+
+        private WaveIn waveIn = null;
+        private BufferedWaveProvider waveProvider = null;
+        private WaveOut waveOut = null;
+
+        private void StartBtn_Click(object sender, EventArgs e)
+        {
+            start_listening();
+        }
+        private void start_listening() 
+        {
+            if (waveIn != null)
+                return;
+
+            // create wave input from mic
+            waveIn = new WaveIn(this.Handle);
+            waveIn.BufferMilliseconds = 25;
+            waveIn.DataAvailable += waveIn_DataAvailable;
+            waveIn.RecordingStopped += waveIn_RecordingStopped;
+
+            // create wave provider
+            waveProvider = new BufferedWaveProvider(waveIn.WaveFormat);
+
+            // create wave output to speakers
+            waveOut = new WaveOut();
+            waveOut.DesiredLatency = 100;
+            Console.WriteLine("list auswahl "+comboBox2.SelectedIndex);
+            if (comboBox2.SelectedIndex != -1)
+                waveOut.DeviceNumber=comboBox2.SelectedIndex-1;
+            waveOut.Init(waveProvider);
+            waveOut.PlaybackStopped += wavePlayer_PlaybackStopped;
+
+            // start recording and playback
+            waveIn.StartRecording();
+            waveOut.Play();
+        }
+
+        void waveIn_DataAvailable(object sender, WaveInEventArgs e)
+        {
+            // add received data to waveProvider buffer
+            if (waveProvider != null)
+                waveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
+        }
+
+        private void StopBtn_Click(object sender, EventArgs e)
+        {
+            if (waveIn != null)
+                waveIn.StopRecording();
+        }
+
+        void waveIn_RecordingStopped(object sender, StoppedEventArgs e)
+        {
+            // stop playback
+            if (waveOut != null)
+                waveOut.Stop();
+
+            // dispose of wave input
+            if (waveIn != null)
+            {
+                waveIn.Dispose();
+                waveIn = null;
+            }
+
+            // drop wave provider
+            waveProvider = null;
+        }
+
+        void wavePlayer_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            // stop recording
+            if (waveIn != null)
+                waveIn.StopRecording();
+
+            // dispose of wave output
+            if (waveOut != null)
+            {
+                waveOut.Dispose();
+                waveOut = null;
+            }
+        }
+
+        private void MainWindow1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (waveIn != null)
+                waveIn.StopRecording();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
