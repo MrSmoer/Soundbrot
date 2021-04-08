@@ -26,6 +26,10 @@ namespace Soundbrot
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
+        public bool restartListen = false;
+        public int listenDevice = 2;
+        public int headphones = 1;
+
         [DllImportAttribute("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImportAttribute("user32.dll")]
@@ -47,8 +51,13 @@ namespace Soundbrot
             //hklist.GetOrAdd("000000Multiply", "C:/Users/Anton/Desktop/Never Gonna Give You Up Original.wav");
             NameValueCollection sAll;
             sAll = ConfigurationManager.AppSettings;
-            Console.WriteLine(ConfigurationManager.GetSection("test")+"asdfdasf");
-            for (int i = 0; sAll.AllKeys.Length > i; i++)
+            
+            listenDevice = int.Parse(sAll.Get("listenDevice"));
+            headphones = int.Parse(sAll.Get("headphones"));
+
+            Console.WriteLine("lsdv: "+listenDevice+ " hedfons: "+headphones);
+
+            for (int i = 2; sAll.AllKeys.Length > i; i++)
             {
                 //Console.WriteLine(sAll.AllKeys[i]+"  ");
                 hklist.GetOrAdd(sAll.AllKeys[i], sAll.Get(i));
@@ -85,21 +94,27 @@ namespace Soundbrot
             gkh.KeyDown += new KeyEventHandler(gkh_KeyDown);
             gkh.KeyUp += new KeyEventHandler(gkh_KeyUp);
             Console.WriteLine("test");
-            start_listening();
+
             for (int n = -1; n < WaveOut.DeviceCount; n++)
             {
                 var caps = WaveOut.GetCapabilities(n);
                 Console.WriteLine($"{n}: {caps.ProductName}");
 
-                comboBox2.Items.AddRange(new object[] {
-                caps.ProductName});
-
                 comboBox1.Items.AddRange(new object[] {
                 caps.ProductName});
 
-                comboBox1.SelectedIndex = 0;
-                comboBox2.SelectedIndex = 0;
+                comboBox2.Items.AddRange(new object[] {
+                caps.ProductName});
+
             }
+            if (comboBox1.Items.Count > headphones)
+                comboBox1.SelectedIndex = headphones;
+            else comboBox1.SelectedIndex = 0;
+
+            if (comboBox2.Items.Count > listenDevice)
+                comboBox2.SelectedIndex = listenDevice;
+            else comboBox2.SelectedIndex = 0;
+            start_listening();
         }
 
         void gkh_KeyUp(object sender, KeyEventArgs e)
@@ -256,11 +271,6 @@ namespace Soundbrot
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -281,8 +291,13 @@ namespace Soundbrot
         }
         private void start_listening() 
         {
+            Thread.Sleep(100);
             if (waveIn != null)
+            {
+                Console.WriteLine("already wave there");
                 return;
+            }
+
 
             // create wave input from mic
             waveIn = new WaveIn(this.Handle);
@@ -296,9 +311,11 @@ namespace Soundbrot
             // create wave output to speakers
             waveOut = new WaveOut();
             waveOut.DesiredLatency = 100;
-            Console.WriteLine("list auswahl "+comboBox2.SelectedIndex);
-            if (comboBox2.SelectedIndex != -1)
-                waveOut.DeviceNumber=comboBox2.SelectedIndex-1;
+            Console.WriteLine("list auswahl "+listenDevice);
+
+            if (WaveOut.DeviceCount>=listenDevice)
+                waveOut.DeviceNumber = listenDevice - 1;
+            else Console.WriteLine("else triggerde"+comboBox2.SelectedIndex);
             waveOut.Init(waveProvider);
             waveOut.PlaybackStopped += wavePlayer_PlaybackStopped;
 
@@ -315,6 +332,10 @@ namespace Soundbrot
         }
 
         private void StopBtn_Click(object sender, EventArgs e)
+        {
+            stopListening();
+        }
+        public void stopListening()
         {
             if (waveIn != null)
                 waveIn.StopRecording();
@@ -348,6 +369,12 @@ namespace Soundbrot
             {
                 waveOut.Dispose();
                 waveOut = null;
+
+                Console.WriteLine("Done");
+            }
+            if (restartListen) {
+                restartListen = false;
+                start_listening();
             }
         }
 
@@ -357,9 +384,44 @@ namespace Soundbrot
                 waveIn.StopRecording();
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            headphones = comboBox1.SelectedIndex;
+            AddUpdateAppSettings("headphones", headphones.ToString());
+
+        }
+
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            listenDevice = comboBox2.SelectedIndex;
+            stopListening();
+            Console.WriteLine("index changed, index: " + comboBox2.SelectedIndex);
+            Console.WriteLine("asdfds"+listenDevice);
+            AddUpdateAppSettings("listenDevice", listenDevice.ToString());
+            restartListen = true;
+        }
 
+        static void AddUpdateAppSettings(string key, string value)
+        {
+            try
+            {
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var settings = configFile.AppSettings.Settings;
+                if (settings[key] == null)
+                {
+                    settings.Add(key, value);
+                }
+                else
+                {
+                    settings[key].Value = value;
+                }
+                configFile.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Console.WriteLine("Error writing app settings");
+            }
         }
     }
 
