@@ -123,7 +123,10 @@ namespace Soundbrot
                 cmbBxListenDevice.SelectedIndex = listenDevice;
             else cmbBxListenDevice.SelectedIndex = 0;
             start_listening();
+
         }
+
+
 
         void gkh_KeyUp(object sender, KeyEventArgs e)
         {
@@ -654,10 +657,22 @@ namespace Soundbrot
         private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
         {
             int diference = e.OldValue - e.NewValue;
+            scrollWindw(diference);
+        }
+
+        private void scrollWindw(int delta) 
+        {
             foreach (Control c in outerPanel.Controls)
             {
-                c.Location = new Point(c.Location.X , c.Location.Y + diference);
+                c.Location = new Point(c.Location.X, c.Location.Y + delta);
             }
+
+        }
+
+        private void outerPanel_MouseEnter(object sender, EventArgs e)
+        {
+            vScrollBar1.Focus();
+            Console.WriteLine("Wfdasd");
         }
     }
 

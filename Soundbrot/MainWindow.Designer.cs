@@ -176,6 +176,7 @@ namespace Soundbrot
             this.vScrollBar1.Maximum = this.hkeylistpanel.Height;
             this.vScrollBar1.Name = "vScrollBar1";
             this.vScrollBar1.Size = new System.Drawing.Size(18, 302);
+            this.vScrollBar1.SmallChange = 20;
             this.vScrollBar1.TabIndex = 20;
             this.vScrollBar1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             // 
@@ -188,6 +189,7 @@ namespace Soundbrot
             this.outerPanel.Size = new System.Drawing.Size(770, 303);
             this.outerPanel.TabIndex = 21;
             this.outerPanel.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            this.outerPanel.MouseEnter += new System.EventHandler(this.outerPanel_MouseEnter);
             // 
             // hkeylistpanel
             // 
@@ -198,6 +200,8 @@ namespace Soundbrot
             this.hkeylistpanel.Name = "hkeylistpanel";
             this.hkeylistpanel.Size = new System.Drawing.Size(757, 289);
             this.hkeylistpanel.TabIndex = 7;
+            //this.hkeylistpanel.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            this.hkeylistpanel.MouseEnter += new System.EventHandler(this.outerPanel_MouseEnter);
             // 
             // createSoundBtn
             // 
@@ -723,6 +727,7 @@ namespace Soundbrot
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.content);
             this.Controls.Add(this.topbar);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainWindow1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

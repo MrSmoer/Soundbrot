@@ -34,8 +34,6 @@ namespace Soundbrot
                 {
                     Thread.Sleep(1000);
                 }
-                
-
 
             }
         }
