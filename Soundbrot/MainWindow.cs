@@ -30,6 +30,7 @@ namespace Soundbrot
         public bool restartListen = false;
         public int listenDevice = 2;
         public int headphones = 1;
+        public int mic = 0;
 
         
 
@@ -52,10 +53,11 @@ namespace Soundbrot
             
             listenDevice = int.Parse(sAll.Get("listenDevice"));
             headphones = int.Parse(sAll.Get("headphones"));
+            mic = int.Parse(sAll.Get("mic"));
 
             Console.WriteLine("lsdv: "+listenDevice+ " hedfons: "+headphones);
 
-            for (int i = 2; sAll.AllKeys.Length > i; i++)
+            for (int i = 3; sAll.AllKeys.Length > i; i++)
             {
                 //Console.WriteLine(sAll.AllKeys[i]+"  ");
                 hklist.GetOrAdd(sAll.AllKeys[i], sAll.Get(i));
@@ -115,6 +117,15 @@ namespace Soundbrot
                 caps.ProductName});
 
             }
+
+            for (int n = -1; n < WaveIn.DeviceCount; n++)
+            {
+                var miccaps = WaveIn.GetCapabilities(n);
+                Console.WriteLine($"{n}: {miccaps.ProductName}");
+
+                cmbBxMic.Items.AddRange(new object[] { 
+                miccaps.ProductName});
+            }
             if (cmbBxsHeadphones.Items.Count > headphones)
                 cmbBxsHeadphones.SelectedIndex = headphones;
             else cmbBxsHeadphones.SelectedIndex = 0;
@@ -122,6 +133,10 @@ namespace Soundbrot
             if (cmbBxListenDevice.Items.Count > listenDevice)
                 cmbBxListenDevice.SelectedIndex = listenDevice;
             else cmbBxListenDevice.SelectedIndex = 0;
+
+            if (cmbBxMic.Items.Count > mic)
+                cmbBxMic.SelectedIndex = mic;
+            else cmbBxMic.SelectedIndex = 0;
             start_listening();
 
         }
@@ -308,7 +323,7 @@ namespace Soundbrot
         }
         private void start_listening() 
         {
-            Thread.Sleep(100);
+            //Thread.Sleep(10);
             if (waveIn != null)
             {
                 Console.WriteLine("already wave there");
@@ -318,6 +333,9 @@ namespace Soundbrot
 
             // create wave input from mic
             waveIn = new WaveIn(this.Handle);
+            if (WaveIn.DeviceCount >= mic)
+                waveIn.DeviceNumber = mic - 1;
+            else Console.WriteLine("else triggerde" + cmbBxMic.SelectedIndex);
             waveIn.BufferMilliseconds = 25;
             waveIn.DataAvailable += waveIn_DataAvailable;
             waveIn.RecordingStopped += waveIn_RecordingStopped;
@@ -339,6 +357,7 @@ namespace Soundbrot
             // start recording and playback
             waveIn.StartRecording();
             waveOut.Play();
+            Console.WriteLine("listening started");
         }
 
         void waveIn_DataAvailable(object sender, WaveInEventArgs e)
@@ -355,7 +374,10 @@ namespace Soundbrot
         public void stopListening()
         {
             if (waveIn != null)
+            {
                 waveIn.StopRecording();
+                Console.WriteLine("");
+            }
         }
 
         void waveIn_RecordingStopped(object sender, StoppedEventArgs e)
@@ -415,6 +437,14 @@ namespace Soundbrot
             Console.WriteLine("index changed, index: " + cmbBxListenDevice.SelectedIndex);
             Console.WriteLine("asdfds"+listenDevice);
             AddUpdateAppSettings("listenDevice", listenDevice.ToString());
+            restartListen = true;
+        }
+
+        private void cmbBxMic_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            mic = cmbBxMic.SelectedIndex;
+            stopListening();
+            AddUpdateAppSettings("mic", mic.ToString());
             restartListen = true;
         }
 
@@ -672,8 +702,14 @@ namespace Soundbrot
         private void outerPanel_MouseEnter(object sender, EventArgs e)
         {
             vScrollBar1.Focus();
-            Console.WriteLine("Wfdasd");
+            //Console.WriteLine("Wfdasd");
         }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 
 }

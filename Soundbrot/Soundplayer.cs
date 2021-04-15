@@ -18,8 +18,6 @@ namespace Soundbrot
 
         public void playSound(object filepath)
         {
-            
-
             //Console.WriteLine("Instance thread procedure. Data='{0}'", filepath);
             String pathstring = filepath.ToString();
             using (var audioFile = new AudioFileReader(pathstring))

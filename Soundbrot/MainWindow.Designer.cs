@@ -91,6 +91,9 @@ namespace Soundbrot
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label13 = new System.Windows.Forms.Label();
+            this.cmbBxMic = new System.Windows.Forms.ComboBox();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.topbar.SuspendLayout();
             this.content.SuspendLayout();
             this.outerPanel.SuspendLayout();
@@ -101,6 +104,7 @@ namespace Soundbrot
             this.panel1.SuspendLayout();
             this.hkeypanel.SuspendLayout();
             this.SysTrayConMen.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // topbar
@@ -156,6 +160,7 @@ namespace Soundbrot
             // 
             // content
             // 
+            this.content.Controls.Add(this.panel4);
             this.content.Controls.Add(this.vScrollBar1);
             this.content.Controls.Add(this.outerPanel);
             this.content.Controls.Add(this.createSoundBtn);
@@ -200,7 +205,6 @@ namespace Soundbrot
             this.hkeylistpanel.Name = "hkeylistpanel";
             this.hkeylistpanel.Size = new System.Drawing.Size(757, 289);
             this.hkeylistpanel.TabIndex = 7;
-            //this.hkeylistpanel.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
             this.hkeylistpanel.MouseEnter += new System.EventHandler(this.outerPanel_MouseEnter);
             // 
             // createSoundBtn
@@ -719,6 +723,39 @@ namespace Soundbrot
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(59, 13);
+            this.label13.TabIndex = 5;
+            this.label13.Text = "Select mic:";
+            this.label13.Click += new System.EventHandler(this.label13_Click);
+            // 
+            // cmbBxMic
+            // 
+            this.cmbBxMic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbBxMic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbBxMic.FormattingEnabled = true;
+            this.cmbBxMic.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cmbBxMic.Location = new System.Drawing.Point(68, 3);
+            this.cmbBxMic.Name = "cmbBxMic";
+            this.cmbBxMic.Size = new System.Drawing.Size(172, 21);
+            this.cmbBxMic.TabIndex = 0;
+            this.cmbBxMic.SelectedIndexChanged += new System.EventHandler(this.cmbBxMic_SelectedIndexChanged_1);
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.Controls.Add(this.label13);
+            this.panel4.Controls.Add(this.cmbBxMic);
+            this.panel4.Location = new System.Drawing.Point(175, 331);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(249, 28);
+            this.panel4.TabIndex = 6;
+            // 
             // MainWindow1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -755,6 +792,8 @@ namespace Soundbrot
             this.hkeypanel.ResumeLayout(false);
             this.hkeypanel.PerformLayout();
             this.SysTrayConMen.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -819,6 +858,9 @@ namespace Soundbrot
         private Button selectFileBtn;
         private TextBox pathTextBox;
         private Label Soundlabel;
+        private Panel panel4;
+        private Label label13;
+        private ComboBox cmbBxMic;
     }
 }
 
